@@ -1,0 +1,29 @@
+version: '3.3'
+
+services:
+  host1:
+    build: .
+    container_name: host1_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: game
+    ports:
+      - "3306:3306"
+
+  host2:
+    build: .
+    container_name: host2_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: game
+    ports:
+      - "3307:3306"
+
+  host3:
+    build: .
+    container_name: host3_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: game
+    ports:
+      - "3308:3306"

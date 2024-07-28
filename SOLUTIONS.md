@@ -1,4 +1,3 @@
----
 # GoodGame Interview Task 2024
 
 # Solution 1: 100% automated setup to run on any ubuntu O.S.
@@ -103,5 +102,3 @@ Select option `6` to exit the script.
 - Backup files should be placed in the `backups` directory and mapped correctly in the `backup_mapping.txt` file.
 - Use the provided script (`DB-UTILITY.sh`) to manage the entire process seamlessly.
 - Solution is tested on Ubuntu 20.04.6 LTS
-
----

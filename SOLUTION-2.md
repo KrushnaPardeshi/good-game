@@ -1,5 +1,5 @@
 
-# Solution 2: Use this Solution, In case environment where solution is being tested is not suitable.
+# Solution 2: Alternative Solution for Incompatible Testing Environments.
 
 ## Prerequisites
 - ssh 

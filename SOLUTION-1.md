@@ -1,6 +1,6 @@
 # GoodGame Interview Task 2024
 
-# Solution 1: 100% automated setup to run on any Linux-based operating system that supports Docker, Docker Compose bash shell.
+# Solution 1: 100% Fully Automated Setup for Any Linux System with Docker and Docker Compose & bash shell.
 
 ## Prerequisites
 
@@ -43,17 +43,19 @@ host3:20240618_212019:host3_fulldump_20240618_212019.sql
 
 ### Step 2: Build and Start Docker Containers
 
-1. Open a terminal and navigate to the directory containing the project files.
-2. You might need to add your user to the docker group.
-3. Set execute permission to DB-UTILITY.sh
-4. Run the `DB-UTILITY.sh` script:
+1. Open a terminal & clone repo or unzip good-game-krushna-main.zip
+2. Navigate to the directory 'good-game-krushna*' containing the project files.
+3. You might need to add your user to the docker group.
+4. Set execute permission to DB-UTILITY.sh
+5. Run the `DB-UTILITY.sh` script:
 
    ```bash
+   git clone https://github.com/KrushnaPardeshi/good-game-krushna.git
    sudo usermod -aG docker $USER 
    sudo chmod +x DB-UTILITY.sh
    ./DB-UTILITY.sh
    ```
-5. From the menu, select the appropriate option:
+6. From the menu, select the appropriate option:
 
    - `1`: Start the Docker containers if they haven't been created yet.
    - `2`: Import the latest data into all DB hosts.

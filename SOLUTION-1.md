@@ -1,6 +1,6 @@
 # GoodGame Interview Task 2024
 
-# Solution 1: 100% automated setup to run on any ubuntu O.S.
+# Solution 1: 100% automated setup to run on any Linux-based operating system that supports Docker, Docker Compose bash shell.
 
 ## Prerequisites
 
@@ -9,6 +9,7 @@ Before you begin, ensure you have the following installed:
 - Docker
 - Docker Compose 
 - Bash shell
+
 
 ## Solution Overview
 
@@ -43,15 +44,17 @@ host3:20240618_212019:host3_fulldump_20240618_212019.sql
 ### Step 2: Build and Start Docker Containers
 
 1. Open a terminal and navigate to the directory containing the project files.
-2. Set execute permission to DB-UTILITY.sh
-3. Run the `DB-UTILITY.sh` script:
+2. You might need to add your user to the docker group:
+3. Set execute permission to DB-UTILITY.sh
+4. Run the `DB-UTILITY.sh` script:
 
    ```bash
+   sudo usermod -aG docker $USER 
    sudo chmod +x DB-UTILITY.sh
    ./DB-UTILITY.sh
    ```
-4. Utility is self-explanatory.
-5. From the menu, select option `1` to start the Docker containers.
+5. DB-UTILITY is self-explanatory.
+6. From the menu, select option `1` to start the Docker containers.
 
 ### Step 3: Import Backups
 
@@ -102,3 +105,4 @@ Select option `6` to exit the script.
 - Backup files should be placed in the `backups` directory and mapped correctly in the `backup_mapping.txt` file.
 - Use the provided script (`DB-UTILITY.sh`) to manage the entire process seamlessly.
 - Solution is tested on Ubuntu 20.04.6 LTS
+

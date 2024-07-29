@@ -129,72 +129,72 @@ SELECT * FROM player;
 **Listing few important features of IAC**:
 
 1. **Automated Infrastructure Provisioning**: 
- - Uses Terraform to automate the creation and configuration of AWS resources.
+    - Uses Terraform to automate the creation and configuration of AWS resources.
 
 2. **Scalable Setup**: 
- - Easily adaptable to handle additional game worlds by updating the Docker Compose configuration and backup mappings.
+    - Easily adaptable to handle additional game worlds by updating the Docker Compose configuration and backup mappings.
 
 3. **Comprehensive Bootstrap Script**: 
- - Ensures all necessary packages and configurations are set up on the EC2 instance automatically.
+    - Ensures all necessary packages and configurations are set up on the EC2 instance automatically.
 
 4. **Dynamic AMI Selection**: 
- - Automatically selects the latest Ubuntu 22.04 LTS AMI using a data source.
+    - Automatically selects the latest Ubuntu 22.04 LTS AMI using a data source.
 
 5. **Security Best Practices**:
-   - Configures security group with inbound rules for essential ports and allows all outbound traffic.
+    - Configures security group with inbound rules for essential ports and allows all outbound traffic.
 
 6. **EC2 Instance Provisioning**:
-   - Creates an EC2 instance with specified type, volume size, and associated security group.
+    - Creates an EC2 instance with specified type, volume size, and associated security group.
 
 7. **Public IP Output**:
-   - Outputs the instance's public IP for easy access.
+    - Outputs the instance's public IP for easy access.
 
 8. **File Transfer and Setup**:
-   - Uses a script to transfer files to the EC2 instance and set up configurations.
+    - Uses a script to transfer files to the EC2 instance and set up configurations.
 
 9. **Bootstrap Configuration**:
-   - Employs a `user_data` script to automatically configure the instance at launch.
+    - Employs a `user_data` script to automatically configure the instance at launch.
 
 10. **Flexible Variable Management**:
-   - Uses variables for customizable and reusable configurations.
+    - Uses variables for customizable and reusable configurations.
 
 11. **Efficient Resource Management**:
-  - Utilizes a `t3a.small` instance for cost-effective operation while maintaining the necessary functionality.
+    - Utilizes a `t3a.small` instance for cost-effective operation while maintaining the necessary functionality.
 
 **Features of DB-UTILITY.sh**:
 
 1. **Multi-Instance MySQL Setup**:
-   - Utilizes Docker and Docker Compose to create isolated MySQL instances for each game world.
-   - Each MySQL instance is configured with its own database to mimic the game world environment.
+    - Utilizes Docker and Docker Compose to create isolated MySQL instances for each game world.
+    - Each MySQL instance is configured with its own database to mimic the game world environment.
 
 2. **Automated Backup Management**:
-   - Automatically import the latest backups for each game world database from a predefined mapping file (`backup_mapping.txt`).
-   - Allows importing specific backups manually.
+    - Automatically import the latest backups for each game world database from a predefined mapping file (`backup_mapping.txt`).
+    - Allows importing specific backups manually.
 
 3. **Interactive Utility Script**:
-   - Provides an interactive Bash script (`DB-UTILITY.sh`) to manage database instances and backups with a simple menu interface.
-   - Options to start and stop Docker containers, import backups, fetch data, and clean up the environment.
+    - Provides an interactive Bash script (`DB-UTILITY.sh`) to manage database instances and backups with a simple menu interface.
+    - Options to start and stop Docker containers, import backups, fetch data, and clean up the environment.
 
 4. **Backup Mapping**:
-   - Maintains a `backup_mapping.txt` file to map each game world host to its backup files.
-   - Supports timestamped backups for easy version management.
+    - Maintains a `backup_mapping.txt` file to map each game world host to its backup files.
+    - Supports timestamped backups for easy version management.
 
 5. **Flexible Backup Import**:
-   - Ability to import the latest backups for all game worlds with a single command.
-   - Option to import specific backups based on user selection from a list.
+    - Ability to import the latest backups for all game worlds with a single command.
+    - Option to import specific backups based on user selection from a list.
 
 6. **Data Fetching**:
-   - Provides a feature to fetch and display data from all game world databases.
-   - Ensures the databases are populated before fetching data, prompting the user to import backups if necessary.
+    - Provides a feature to fetch and display data from all game world databases.
+    - Ensures the databases are populated before fetching data, prompting the user to import backups if necessary.
 
 7. **Environment Cleanup**:
-   - Includes a command to destroy all Docker containers, volumes, and images related to the MySQL instances.
-   - Ensures a clean state for reusability and repeatability.
+    - Includes a command to destroy all Docker containers, volumes, and images related to the MySQL instances.
+    - Ensures a clean state for reusability and repeatability.
 
 8. **Detailed Instructions and Error Handling**:
-   - Provides clear instructions and error messages for each operation.
-   - Ensures user-friendly experience with guidance on what to do next if an error occurs.
+    - Provides clear instructions and error messages for each operation.
+    - Ensures user-friendly experience with guidance on what to do next if an error occurs.
 
 9. **Single Host Deployment**:
-   - Designed to run entirely on a single Linux host, making it easy to set up and manage.
-   - No external dependencies on cloud providers or managed database services.
+    - Designed to run entirely on a single Linux host, making it easy to set up and manage.
+    - No external dependencies on cloud providers or managed database services.

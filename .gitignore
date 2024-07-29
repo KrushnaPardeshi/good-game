@@ -35,3 +35,6 @@ Thumbs.db
 # Python bytecode
 *.pyc
 __pycache__/
+
+#Ec2 public IP
+public_ip

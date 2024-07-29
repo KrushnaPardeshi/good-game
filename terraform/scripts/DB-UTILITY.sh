@@ -3,10 +3,48 @@
 # Define the backup mapping file
 BACKUP_FILE="backup_mapping.txt"
 
+# Function to install prerequisite packages
+install_prerequisites() {
+  echo "Installing prerequisite packages..."
+
+  # Update package list
+  sudo apt-get update
+
+  # Install docker
+  if ! command -v docker &> /dev/null; then
+    echo "Installing Docker..."
+    sudo apt-get install -y docker.io
+    sudo usermod -aG docker $USER
+  else
+    echo "Docker is already installed."
+    sleep 1
+  fi
+
+  # Install docker-compose
+  if ! command -v docker-compose &> /dev/null; then
+    echo "Installing Docker Compose..."
+    sudo apt-get install -y docker-compose
+  else
+    echo "Docker Compose is already installed."
+    sleep 1
+  fi
+
+  # Install mysql-client-core-8.0
+  if ! dpkg -l | grep -q "mysql-client-core*"; then
+    echo "Installing MySQL Client Core ..."
+    sudo apt-get install -y "mysql-client-core*"
+  else
+    echo "MySQL Client Core is already installed."
+    sleep 1
+  fi
+
+  echo "Prerequisite packages installation complete."
+}
+
 # Function to start Docker containers
 start_docker_containers() {
   echo "Starting Docker containers..."
-  docker-compose up --build -d
+  sudo docker-compose up --build -d
   echo -e "\n Waiting 40 Seconds for MySQL DB containers to initialize..."
   sleep 40
 }
@@ -14,7 +52,7 @@ start_docker_containers() {
 # Function to destroy Docker containers
 destroy_docker_containers() {
   echo "Destroying Docker containers and removing all associated volumes and images..."
-  docker-compose down -v --rmi all
+  sudo docker-compose down -v --rmi all
 }
 
 # Function to list backups
@@ -34,7 +72,7 @@ import_backup() {
   local host=$1
   local backup_file=$2
   echo "Importing data into $host from $backup_file..."
-  docker exec -i "${host}_db" sh -c "MYSQL_PWD=rootpassword mysql -uroot --silent game" < "backups/${backup_file}"
+  sudo docker exec -i "${host}_db" sh -c "MYSQL_PWD=rootpassword mysql -uroot --silent game" < "backups/${backup_file}"
   if [ $? -eq 0 ]; then
     echo -e "Import completed successfully for $host."
     sleep 2
@@ -48,7 +86,7 @@ import_backup() {
 import_all_backups() {
   echo -e "\n:: Importing latest data into all Game Worlds. ::\n"
   
-  if ! (docker ps --format '{{.Names}}' | grep -q 'host1_db' && docker ps --format '{{.Names}}' | grep -q 'host2_db' && docker ps --format '{{.Names}}' | grep -q 'host3_db'); then
+  if ! (sudo docker ps --format '{{.Names}}' | grep -q 'host1_db' && sudo docker ps --format '{{.Names}}' | grep -q 'host2_db' && sudo docker ps --format '{{.Names}}' | grep -q 'host3_db'); then
     echo -e "\n:: It seems Game World DB's are not created yet. ::"
     sleep 2
     start_docker_containers
@@ -94,22 +132,22 @@ fetch_all_data() {
   hosts=$(awk -F':' '{print $1}' "$BACKUP_FILE" | sort | uniq)
   for host in $hosts; do
     echo -e "\nData from $host:"
-  if ! (docker ps --format '{{.Names}}' | grep -q 'host1_db' && docker ps --format '{{.Names}}' | grep -q 'host2_db' && docker ps --format '{{.Names}}' | grep -q 'host3_db'); then
-    echo -e "\n:: It seems Game World DB's are not created yet. Choose option 1 to create.::" 
-    sleep 5
-    return
-  fi    
+    if ! (sudo docker ps --format '{{.Names}}' | grep -q 'host1_db' && sudo docker ps --format '{{.Names}}' | grep -q 'host2_db' && sudo docker ps --format '{{.Names}}' | grep -q 'host3_db'); then
+      echo -e "\n:: It seems Game World DB's are not created yet. Choose option 1 to create.::" 
+      sleep 5
+      return
+    fi    
     ## Checking data is imported or not
-    if ! docker exec -i "${host}_db" sh -c "MYSQL_PWD=rootpassword mysql -uroot --silent --skip-column-names game -e 'DESCRIBE player;' > /dev/null 2>&1"; then
+    if ! sudo docker exec -i "${host}_db" sh -c "MYSQL_PWD=rootpassword mysql -uroot --silent --skip-column-names game -e 'DESCRIBE player;' > /dev/null 2>&1"; then
       echo -e "\n ::It seems your fetching data without importing it into ${host}_db.::"
       echo -e "\n :: Import data using option 2 & 3 from menu as per your need. :: "
       sleep 3
     else
-      docker exec -i "${host}_db" sh -c "MYSQL_PWD=rootpassword mysql -uroot game -e 'SELECT * FROM player;'" | column -t
+      sudo docker exec -i "${host}_db" sh -c "MYSQL_PWD=rootpassword mysql -uroot game -e 'SELECT * FROM player;'" | column -t
     fi
   done
-      echo -e "\n Waiting 15 seconds to let you have look on available data on stdout.."
-      sleep 15
+  echo -e "\n Waiting 15 seconds to let you have look on available data on stdout.."
+  sleep 15
 }
 
 # Display the menu
@@ -118,43 +156,47 @@ show_menu() {
   echo "=============================="
   echo " MySQL Backup Import Utility"
   echo "=============================="
-  echo "1. Would you like to create the 'Game Worlds' databases first, if they haven't been created yet?"
-  echo "2. Import latest data into all DB hosts."
-  echo "3. Import data into a specific DB host."
-  echo "4. Fetch all data from all Game Worlds databases."
-  echo "5. Destroy existing Game Worlds databases."
-  echo "6. Exit."
+  echo "1. Install prerequisite packages (Suitable for Ubuntu/Debian-Based Distribution)."
+  echo "2. Create the 'Game Worlds' databases if they haven't been created yet."
+  echo "3. Import latest data into all DB hosts."
+  echo "4. Import data into a specific DB host."
+  echo "5. Fetch all data from all Game Worlds databases."
+  echo "6. Destroy existing Game Worlds databases."
+  echo "7. Exit."
   echo "=============================="
 }
 
 # Main menu logic
 while true; do
   show_menu
-  echo -n "Select an option [1-6]: "
+  echo -n "Select an option [1-7]: "
   read -r choice
   
   case $choice in
     1)
-      start_docker_containers
+      install_prerequisites
       ;;
     2)
-      import_all_backups
+      start_docker_containers
       ;;
     3)
-      import_specific_backup
+      import_all_backups
       ;;
     4)
-      fetch_all_data
+      import_specific_backup
       ;;
     5)
-      destroy_docker_containers
+      fetch_all_data
       ;;
     6)
-      echo -e "\nIt Was Fun Game ! Exiting, Tschüss...\n"
+      destroy_docker_containers
+      ;;
+    7)
+      echo -e "\nIt Was Fun Game! Exiting, Tschüss...\n"
       exit 0
       ;;
     *)
-      echo "Invalid option. Please choose a valid option. or Choose option 5 to exit."
+      echo "Invalid option. Please choose a valid option or choose option 7 to exit."
       sleep 2
       ;;
   esac

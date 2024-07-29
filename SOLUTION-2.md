@@ -1,12 +1,17 @@
 
 # Solution 2: Alternative Solution for Incompatible Testing Environments.
 
+## Solution Overview
+
+This is the Alternative Solution, If you encounter issues with the initial setup or if your environment does not fully support the primary solution's prerequisites, this alternative approach provides a feasible workaround to ensure you can still achieve the required functionality to test comprehensive solution utility "DB-UTILITY.sh".
+
 ## Prerequisites
-- ssh 
+- ssh or tool to login ec2 server
 
 ### Step 1: Login to EC2 server & navigate to directory.
 
 ```bash
+    cd good-game-krushna/
     ssh -i GoodGame.pem ubuntu@18.185.224.194   
 ```
 

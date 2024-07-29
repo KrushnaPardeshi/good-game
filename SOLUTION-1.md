@@ -99,7 +99,7 @@ USE game;
 SELECT * FROM player;
 
 ## Features
-
+**Features of DB-UTILITY.sh**:
 1. **Multi-Instance MySQL Setup**:
    - Utilizes Docker and Docker Compose to create isolated MySQL instances for each game world.
    - Each MySQL instance is configured with its own database to mimic the game world environment.

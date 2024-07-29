@@ -88,6 +88,15 @@ host3:20240618_212019:host3_fulldump_20240618_212019.sql
 6. **Exit**:
    - Exit the script.
 
+## Few example of CLI commands
+host1: mysql -h 127.0.0.1 -P 3306 -u root -p game
+host2: mysql -h 127.0.0.1 -P 3307 -u root -p game
+host3: mysql -h 127.0.0.1 -P 3308 -u root -p game
+Password: rootpassword
+
+SHOW DATABASES;
+USE game;
+SELECT * FROM player;
 
 ## Features
 

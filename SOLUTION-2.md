@@ -11,7 +11,7 @@ This is the Alternative Solution, If you encounter issues with the initial setup
 ### Step 1: Login to EC2 server & navigate to directory.
 
 ```bash
-    cd good-game-krushna/
+    cd good-game-krushna/terraform
     ssh -i GoodGame.pem ubuntu@18.185.224.194   
 ```
 
